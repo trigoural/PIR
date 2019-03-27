@@ -1,0 +1,127 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Wed Mar 27 14:49:05 2019
+
+@author: trigoural
+"""
+
+import numpy as np 
+from matplotlib import pyplot as plt
+import matplotlib.animation as animation
+
+
+fig = plt.figure()
+ax = plt.axes(xlim = (0, 2*np.pi), ylim = (-0.7, 0.7))
+line, = ax.plot([], [], lw=2)
+
+###def init():
+    ###line.set_data([], [])
+    ###return line,
+
+
+###fig, pir= plt.subplots()
+
+###x = np.arange(0, 2*np.pi,0.01)
+
+o= np.linspace(0,2* np.pi, 1000)  
+
+###line, = pir.plot(o, np.sin(o))
+
+
+
+m=2
+ci = 0+1j
+
+def pir_func( m, o):
+    norm = 1/(np.sqrt(2*np.pi))
+    space = np.exp(ci *m*o)
+    
+    return norm * space
+
+h=1
+u=1
+R=1
+
+I= u*(R**2)
+
+def pir_en (m, I):
+    en = ((h**2)*(m**2)/(2*I))
+    return en
+
+### t=50
+
+def pir_time (m, I, t):
+    time = np.exp((-ci * pir_en(m,I) * t)/(h))    
+    return time
+
+###line, = pir.plot(o, pir_func(m,o)*pir_time(m, I, t))
+
+
+
+def animate(i):
+    line.set_ydata(pir_func(m,o)*pir_time(m, I, i))  
+    return line,
+
+def init():
+    line.set_data([], [])
+    return line,
+
+
+# Init only required for blitting to give a clean slate.
+###    line.set_ydata(np.ma.array(o, mask=True))
+    ###return line,
+
+
+
+'''ani = animation.FuncAnimation(fig, animate, np.arange(1, 500), init_func=init,
+                              interval=6, blit=True)'''
+
+anim = animation.FuncAnimation(fig, animate, init_func=init,
+	                               frames=10000, interval=20, blit=True)
+
+
+    
+###y= pir_func (m,o)*pir_time(m,I,t)
+### p= np.conj (y)*y
+
+### y2= pir_func (m,o)* pir_time(m,I,2*t)
+
+
+
+####plt.plot(o, y, 'blue', o, y2,'red')
+
+###plt.plot(o, y, 'blue')
+
+
+plt.show()
+
+
+
+
+
+
+'''
+import numpy as np
+import matplotlib.pyplot as plt
+import matplotlib.animation as animation
+
+fig, pir= plt.subplots()
+
+x = np.arange(0, 2*np.pi,0.01 )
+line, = pir.plot(x, np.sin(x))
+
+
+def animate(i):
+    line.set_ydata(np.sin(x + i/160.0))  
+    return line,
+
+
+# Init only required for blitting to give a clean slate.
+def init():
+    line.set_ydata(np.ma.array(x, mask=True))
+    return line,
+
+ani = animation.FuncAnimation(fig, animate, np.arange(1, 500), init_func=init,
+                              interval=6, blit=True)
+plt.show()
+'''
